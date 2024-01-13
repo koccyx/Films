@@ -15,9 +15,9 @@ export default function NavBar() {
               component='div'
               sx={{ flexGrow: 1, color: '#fff' }}
             >
-              <Link to={'/'}>
+              {/* <Link to={'/'}> */}
                 Films
-              </Link>
+              {/* </Link> */}
             </Typography>
         </Toolbar>
       </AppBar>

@@ -1,6 +1,5 @@
-import { createTheme, Box } from '@mui/material';
+import { createTheme, Box, Card } from '@mui/material';
 import styled from 'styled-components';
-import RouteError from '../utils/route_error';
 
 declare module '@mui/material/styles' {
   interface PaletteOptions {
@@ -15,7 +14,7 @@ export const theme = createTheme({
     values: {
       xs: 0,
       sm: 600,
-      md: 1150,
+      md: 1190,
       lg: 1200,
       xl: 1536,
     },
@@ -62,4 +61,36 @@ export const StyledBox = styled(Box)(() => {
     },
   };
 });
+
+export const StyledCard = styled(Card)(() => {
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: '510px',
+  };
+});
+
+export const StyledLoader = styled(Box)(() => ({
+  width: '100%',
+  height: '80vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  [theme.breakpoints.down('md')]: {
+    height: '40vh',
+  },
+}));
+
+export const StyledAboutPage = styled(Box)(() => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '20px',
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}));
 

@@ -4,13 +4,12 @@ import { StyledBox } from '../theme/theme';
 import SelectFilter from './SelectFilter';
 import RangeSlider from './RangeSlider';
 import CheckBox from './CheckBox';
-import { FilterContext } from '../state/FilterContext';
+import { FilmsContext, FilterContext } from '../state/FilterContext';
 
 export default function Filters() {
   const theme = useTheme();
 
   const filters = useContext(FilterContext);
-
   return (
     <StyledBox
       sx={{

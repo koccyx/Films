@@ -15,13 +15,11 @@ import {
   filmsReducer,
 } from './FilmsReducer';
 
-
 interface ContextProviderProps {
   children: ReactNode;
   defaultState: FiltersState;
   filmsDefaultState: FilmsState;
 }
-
 
 export interface FiltersContextInterface {
   state: FiltersState;
@@ -54,7 +52,14 @@ export const useFiltersContext = (initState: FiltersState) => {
     dispatch({ type: ACTIONS.TOTAL_PAGE_ACTION, payload: total_pages });
   };
 
-  return { state, handleGenres, handleYears, handleSort, handlePage, handleTotalPages };
+  return {
+    state,
+    handleGenres,
+    handleYears,
+    handleSort,
+    handlePage,
+    handleTotalPages,
+  };
 };
 
 export const defaultState: FiltersState = {
@@ -74,8 +79,7 @@ export const FilterContext = createContext<FiltersContextInterface>({
   handleTotalPages: (total_pages: number) => null,
 });
 
-
-interface FilmsContextProviderProps {//dsdsdsd
+interface FilmsContextProviderProps {
   children: ReactNode;
   defaultState: FilmsState;
 }
@@ -83,27 +87,33 @@ interface FilmsContextProviderProps {//dsdsdsd
 export interface FilmsContextInterface {
   state: FilmsState;
   handleFilms: (films: FilmsInterface[]) => void;
+  handleLoading: (isLoading: boolean) => void;
 }
 
 export const useFilmsContext = (initState: FilmsState) => {
   const [state, dispatch] = useReducer(filmsReducer, initState);
 
   const handleFilms = (newValue: FilmsInterface[]) => {
-    dispatch({type: FILMS_ACTIONS.ADD_FILMS_ACTION, payload: newValue});
+    dispatch({ type: FILMS_ACTIONS.ADD_FILMS_ACTION, payload: newValue });
   };
 
-  return { state, handleFilms };
+  const handleLoading = (isLoading: boolean) => {
+    dispatch({ type: FILMS_ACTIONS.LOADING_FILM_ACTION, payload: isLoading });
+  };
+
+  return { state, handleFilms, handleLoading };
 };
 
 export const filmsDefaultState: FilmsState = {
   films: [],
+  isLoading: true,
 };
 
 export const FilmsContext = createContext<FilmsContextInterface>({
   state: filmsDefaultState,
   handleFilms: (films: FilmsInterface[]) => null,
+  handleLoading: (isLoading: boolean) => null,
 });
-
 
 export default function ContextProvider({
   children,
@@ -111,7 +121,7 @@ export default function ContextProvider({
   filmsDefaultState,
 }: ContextProviderProps) {
   return (
-    <FilmsContext.Provider value={{...useFilmsContext(filmsDefaultState)}}>
+    <FilmsContext.Provider value={{ ...useFilmsContext(filmsDefaultState) }}>
       <FilterContext.Provider value={{ ...useFiltersContext(defaultState) }}>
         {children}
       </FilterContext.Provider>

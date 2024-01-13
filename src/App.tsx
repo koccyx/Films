@@ -5,7 +5,6 @@ import NavBar from './components/NavBar';
 import ContextProvider from './state/FilterContext';
 import { defaultState } from './state/FilterContext';
 import { filmsDefaultState } from './state/FilterContext';
-// import FilmsPage from './pages/films_page';
 import { router } from './router/router';
 import { RouterProvider } from 'react-router-dom';
 

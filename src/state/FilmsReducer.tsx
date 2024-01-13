@@ -1,5 +1,6 @@
 export enum FILMS_ACTIONS {
   ADD_FILMS_ACTION = 'ADD_FILM',
+  LOADING_FILM_ACTION = 'IS_LOADING',
 }
 
 export interface FilmsInterface {
@@ -11,11 +12,12 @@ export interface FilmsInterface {
 
 export interface FilmsState {
   films: FilmsInterface[];
+  isLoading: boolean;
 }
 
 export interface FilmsAction {
   type: FILMS_ACTIONS;
-  payload: FilmsInterface[];
+  payload: FilmsInterface[] | boolean;
 }
 
 export function filmsReducer(
@@ -27,6 +29,12 @@ export function filmsReducer(
       return {
         ...state,
         films: action.payload as FilmsInterface[],
+      };
+    }
+    case FILMS_ACTIONS.LOADING_FILM_ACTION: {
+      return {
+        ...state,
+        isLoading: action.payload as boolean,
       };
     }
     default: {
