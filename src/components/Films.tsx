@@ -1,21 +1,22 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Box, Grid, useTheme } from '@mui/material';
 import FilmCard from './FilmCard';
-import { FilmsContext } from '../state/FilterContext';
+import { FilmsContext } from '../state/Context';
 import { fetchFilms } from '../utils/fetchFilms';
-import { FiltersContextInterface, FilterContext } from '../state/FilterContext';
+import { FiltersContextInterface, FilterContext,UserContext } from '../state/Context';
 import Loader from '../utils/loader';
 
 export default function Films() {
   const filters: FiltersContextInterface = useContext(FilterContext);
   const curTheme = useTheme();
 
+  const userContext = useContext(UserContext);
   const filtersContext = useContext(FilterContext);
   const filmsContext = useContext(FilmsContext);
 
   useEffect(() => {
     filmsContext.handleLoading(true);
-    fetchFilms(filters.state.sortOption.value, filters.state.page).then(
+    fetchFilms(filters.state.sortOption.value, filters.state.page, userContext.state.token).then(
       (data) => {
         filmsContext.handleFilms(data.films);
         filtersContext.handleTotalPages(data.pages);

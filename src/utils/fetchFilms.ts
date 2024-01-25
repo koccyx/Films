@@ -5,7 +5,12 @@ interface FetchedDate {
   pages: number;
 }
 
-export async function fetchFilms(option: string, page: number): Promise<FetchedDate> {
+export async function fetchFilms(
+  option: string,
+  page: number,
+  token: string
+): Promise<FetchedDate> {
+  
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${option}?language=en-US&page=${page}`,
@@ -14,7 +19,8 @@ export async function fetchFilms(option: string, page: number): Promise<FetchedD
         headers: {
           accept: 'application/json',
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTgwODIyYTQyMDJiZWY2NDk0MDM5NzlmYmRhZGUzMSIsInN1YiI6IjY1OGNhMDNiMzIzZWJhMTA3MjM2NjliZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z5-6kkUmTCkqWiAf_YuxOZxmpmgko-6IaK4662xJUV4',
+          `Bearer ${token}`
+            // 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTgwODIyYTQyMDJiZWY2NDk0MDM5NzlmYmRhZGUzMSIsInN1YiI6IjY1OGNhMDNiMzIzZWJhMTA3MjM2NjliZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z5-6kkUmTCkqWiAf_YuxOZxmpmgko-6IaK4662xJUV4',
         },
       },
     );
@@ -27,9 +33,9 @@ export async function fetchFilms(option: string, page: number): Promise<FetchedD
       id: elem.id,
     }));
 
-    return {films, pages: data.total_pages};
+    return { films, pages: data.total_pages };
   } catch (error: unknown) {
     console.log(error);
-    return {films: [], pages: 1};
+    return { films: [], pages: 1 };
   }
 }

@@ -17,11 +17,9 @@ const options: SelectInterface[] = [
 
 export default function SelectFilter(props: SelectProps) {
   return (
-    <Box sx={{...props.sx, }}>
-      <InputLabel >Sort By:</InputLabel>
-      <Select
-        value={props.sortOption.value}
-      >
+    <Box sx={{ ...props.sx }}>
+      <InputLabel>Sort By:</InputLabel>
+      <Select value={props.sortOption.value}>
         {options.map((elem) => (
           <MenuItem
             key={elem.value}

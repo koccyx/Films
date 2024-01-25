@@ -1,23 +1,32 @@
 import { createBrowserRouter } from 'react-router-dom';
-import FilmsPage from '../pages/films_page';
+import FilmsPage from '../pages/films-menu';
 import About from '../pages/about-page';
-import RouteError from '../utils/route_error';
-import FetchFilmInfo from '../utils/fetch-film-info';
+import RouteError from './route_error';
+import MainPage from '../pages/main-page';
+import RegistrationPage from '../pages/registration-page';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <FilmsPage />,
+    element: <MainPage />,
     errorElement: <RouteError />,
-  },
-  {
-    path: 'about/:filmId',
-    element: <About />,
-    errorElement: <RouteError />,
-    loader: filmRouter,
+    children: [
+      {
+        path: '/',
+        element: <FilmsPage />,
+        errorElement: <RouteError />,
+      },
+      {
+        path: 'about/:filmId',
+        element: <About />,
+        errorElement: <RouteError />,
+      },
+      {
+        path: 'registration',
+        element: <RegistrationPage />,
+        errorElement: <RouteError />,
+      },
+    ],
   },
 ]);
 
-async function filmRouter({params}:{params: any}) {
-  return FetchFilmInfo(params.filmId as number);
-}

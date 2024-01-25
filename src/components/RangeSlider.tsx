@@ -13,8 +13,6 @@ export default function RangeSlider(props: SelectProps) {
     props.handleYears(newValue as number[]);
   };
 
-  
-
   return (
     <Box sx={{ ...props.sx }}>
       <Typography sx={{ pb: '35px' }} variant='h6'>
@@ -25,7 +23,6 @@ export default function RangeSlider(props: SelectProps) {
         value={props.selectedYears}
         onChange={handleChange}
         valueLabelDisplay='on'
-        // getAriaValueText={valuetext}
         min={1950}
         max={2023}
       />

@@ -1,24 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import FetchFilmInfo, { FilmPageInterface } from '../utils/fetch-film-info';
+import React, { useContext, useEffect, useState } from 'react';
+import { FilmPageInterface } from '../utils/fetch-film-info';
 import { StyledAboutPage } from '../theme/theme';
 import Loader from '../utils/loader';
 import { Box, Typography, useTheme, IconButton } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import { useLoaderData } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import FetchFilmInfo from '../utils/fetch-film-info';
+import { UserContext } from '../state/Context';
+
+const initialState: FilmPageInterface = {
+  img: '',
+  title: null,
+  averageVote: 0,
+  country: '',
+  genres: [],
+  overview: '',
+  releaseYear: 0,
+};
 
 export default function About() {
-  const [filmInfo, changeFilmInfo] = useState<FilmPageInterface>();
+  const [filmInfo, changeFilmInfo] = useState<FilmPageInterface>(initialState);
   const theme = useTheme();
-
-  const data = useLoaderData() as FilmPageInterface;
+  const params = useParams();
+  const userContext = useContext(UserContext);
 
   useEffect(() => {
-    changeFilmInfo(data);
+    if (params.filmId)
+      FetchFilmInfo(params.filmId as unknown as number, userContext.state.token).then((data) =>
+        changeFilmInfo(data),
+      );
   }, []);
 
   return (
     <StyledAboutPage>
-      {!filmInfo?.title ? (
+      {!filmInfo.title ? (
         <Loader />
       ) : (
         <>
@@ -78,13 +93,17 @@ export default function About() {
                 <Typography variant='h5'>
                   Average vote: {filmInfo.averageVote}
                 </Typography>
-                <Typography variant='h5'>Genres: {filmInfo.genres}</Typography>
+                <Typography variant='h5'>
+                  Genres: {filmInfo.genres.join(', ')}
+                </Typography>
                 <Typography variant='h5'>
                   Country: {filmInfo.country}
                 </Typography>
               </Box>
             </Box>
-            <Typography variant='h6' sx={{}}>{filmInfo?.overview}</Typography>
+            <Typography variant='h6' sx={{}}>
+              {filmInfo.overview}
+            </Typography>
           </Box>
         </>
       )}

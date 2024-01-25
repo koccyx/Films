@@ -4,12 +4,20 @@ import { StyledBox } from '../theme/theme';
 import SelectFilter from './SelectFilter';
 import RangeSlider from './RangeSlider';
 import CheckBox from './CheckBox';
-import { FilmsContext, FilterContext } from '../state/FilterContext';
+import { FilterContext } from '../state/Context';
 
 export default function Filters() {
   const theme = useTheme();
 
   const filters = useContext(FilterContext);
+
+  const handleResetButton = () => {
+    filters.handleGenres([]);
+    filters.handlePage(1);
+    filters.handleSort({ text: 'Popularity', value: 'popular' });
+    filters.handleYears([1950, 2024]);
+  };
+
   return (
     <StyledBox
       sx={{
@@ -20,7 +28,7 @@ export default function Filters() {
         sx={{ display: 'flex', justifyContent: 'space-between', mb: '15px' }}
       >
         <Typography variant='h4'>Filters</Typography>
-        <Button variant='text'>x</Button>
+        <Button onClick={handleResetButton} variant='text'>x</Button>
       </Box>
       <SelectFilter
         sx={{ mb: '40px' }}
@@ -42,7 +50,7 @@ export default function Filters() {
         sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
         size='medium'
         page={filters.state.page}
-        onChange={(event: React.ChangeEvent<unknown>, value: number)=> {
+        onChange={(event: React.ChangeEvent<unknown>, value: number) => {
           filters.handlePage(value);
         }}
       />

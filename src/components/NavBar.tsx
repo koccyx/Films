@@ -1,26 +1,36 @@
 import React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import { Typography, Toolbar, Box, AppBar } from '@mui/material';
 import { Link } from 'react-router-dom';
+import ModalButton from './modal-button';
+import ProfileButton from './profile-button';
+import useToken from '../hooks/use-token';
 
 export default function NavBar() {
+
+  
+  const [token] = useToken();
+  
+  
   return (
-    <Box sx={{ display: 'flex', position: 'fixed', width: '100%', zIndex: 10 }}>
-      <AppBar>
-        <Toolbar>
+    <>
+      <Box
+        sx={{ display: 'flex', position: 'fixed', width: '100%', zIndex: 10 }}
+      >
+        <AppBar>
+          <Toolbar>
             <Typography
               variant='h4'
               component='div'
-              sx={{ flexGrow: 1, color: '#fff' }}
+              sx={{ flexGrow: 1, color: '#fff', textDecoration: 'none' }}
             >
-              {/* <Link to={'/'}> */}
+              <Link to={'/'} style={{ color: '#fff', textDecoration: 'none' }}>
                 Films
-              {/* </Link> */}
+              </Link>
             </Typography>
-        </Toolbar>
-      </AppBar>
-    </Box>
+            {token == '' ? <ModalButton /> : <ProfileButton />}
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </>
   );
 }

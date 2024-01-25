@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface genre {
   id: number;
   name: string;
@@ -17,6 +15,7 @@ export interface FilmPageInterface {
 
 export default async function FetchFilmInfo(
   movieId: number,
+  token: string,
 ): Promise<FilmPageInterface> {
   try {
     const response = await fetch(
@@ -26,7 +25,8 @@ export default async function FetchFilmInfo(
         headers: {
           accept: 'application/json',
           Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTgwODIyYTQyMDJiZWY2NDk0MDM5NzlmYmRhZGUzMSIsInN1YiI6IjY1OGNhMDNiMzIzZWJhMTA3MjM2NjliZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z5-6kkUmTCkqWiAf_YuxOZxmpmgko-6IaK4662xJUV4',
+            // 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTgwODIyYTQyMDJiZWY2NDk0MDM5NzlmYmRhZGUzMSIsInN1YiI6IjY1OGNhMDNiMzIzZWJhMTA3MjM2NjliZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z5-6kkUmTCkqWiAf_YuxOZxmpmgko-6IaK4662xJUV4',
+            `Bearer ${token}`
         },
       },
     );

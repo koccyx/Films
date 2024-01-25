@@ -11,14 +11,20 @@ import {
   FILMS_ACTIONS,
   FilmsInterface,
   FilmsState,
-  FilmsAction,
   filmsReducer,
 } from './FilmsReducer';
 
+import {
+  USER_ACTIONS,
+  UserInterface,
+  userReducer,
+} from './UserReducer';
+
 interface ContextProviderProps {
   children: ReactNode;
-  defaultState: FiltersState;
+  filtersDefaultState: FiltersState;
   filmsDefaultState: FilmsState;
+  userDefaultState: UserInterface;
 }
 
 export interface FiltersContextInterface {
@@ -62,7 +68,7 @@ export const useFiltersContext = (initState: FiltersState) => {
   };
 };
 
-export const defaultState: FiltersState = {
+export const filtersDefaultState: FiltersState = {
   genreList: [],
   sortOption: { text: 'Popularity', value: 'popular' },
   selectedYears: [1970, 2023],
@@ -71,7 +77,7 @@ export const defaultState: FiltersState = {
 };
 
 export const FilterContext = createContext<FiltersContextInterface>({
-  state: defaultState,
+  state: filtersDefaultState,
   handleGenres: (newValue: SelectInterface[]) => null,
   handleYears: (years: number[]) => null,
   handleSort: (sortBy: SelectInterface) => null,
@@ -115,15 +121,55 @@ export const FilmsContext = createContext<FilmsContextInterface>({
   handleLoading: (isLoading: boolean) => null,
 });
 
+
+interface UserContextProviderProps {
+  children: ReactNode;
+  defaultState: FilmsState;
+}
+
+export interface UserContextInterface {
+  state: UserInterface;
+  handleMail: (mail: string) => void;
+  handleToken: (token: string) => void;
+}
+
+export const useUserContext = (initState: UserInterface) => {
+  const [state, dispatch] = useReducer(userReducer, initState);
+
+  const handleMail = (mail: string) => {
+    dispatch({ type: USER_ACTIONS.SET_MAIL_ACTION, payload: mail });
+  };
+
+  const handleToken = (token: string) => {
+    dispatch({ type: USER_ACTIONS.SET_TOKEN_ACTION, payload: token });
+  };
+
+  return { state, handleMail, handleToken };
+};
+
+export const userDefaultState: UserInterface = {
+  mail: '',
+  token: '',
+};
+
+export const UserContext = createContext<UserContextInterface>({
+  state: userDefaultState,
+  handleMail: (mail: string) => null,
+  handleToken: (token: string) => null,
+});
+
 export default function ContextProvider({
   children,
-  defaultState,
+  filtersDefaultState,
   filmsDefaultState,
+  userDefaultState,
 }: ContextProviderProps) {
   return (
     <FilmsContext.Provider value={{ ...useFilmsContext(filmsDefaultState) }}>
-      <FilterContext.Provider value={{ ...useFiltersContext(defaultState) }}>
-        {children}
+      <FilterContext.Provider value={{ ...useFiltersContext(filtersDefaultState) }}>
+        <UserContext.Provider value={{...useUserContext(userDefaultState)}}>
+          {children}
+        </UserContext.Provider>
       </FilterContext.Provider>
     </FilmsContext.Provider>
   );

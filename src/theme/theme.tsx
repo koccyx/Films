@@ -94,3 +94,18 @@ export const StyledAboutPage = styled(Box)(() => ({
   },
 }));
 
+export const StyledModal = styled(Box)(() => ({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  padding: '10px',
+  width: '45%',
+  minHeight: '200px',
+  backgroundColor: 'white',
+  borderRadius: '5px',
+  boxShadow: '24',
+  [theme.breakpoints.down('md')]: {
+    width: '70%',
+  },
+}));

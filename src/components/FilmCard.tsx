@@ -4,18 +4,13 @@ import StarIcon from '@mui/icons-material/Star';
 import { FilmsInterface } from '../state/FilmsReducer';
 import { Link } from 'react-router-dom';
 import { StyledCard } from '../theme/theme';
-import { useLoaderData } from 'react-router-dom';
 
 export default function FilmCard(props: FilmsInterface) {
   const starButtonHandler = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.stopPropagation();
-    console.log('ees');
   };
-
-  
-  
 
   return (
     <StyledCard
@@ -34,7 +29,12 @@ export default function FilmCard(props: FilmsInterface) {
         <img
           src={`https://image.tmdb.org/t/p/original/${props.poster_path}`}
           alt='Film image'
-          style={{ width: '100%', height: '300px', paddingBottom: '10px', objectFit: 'cover' }}
+          style={{
+            width: '100%',
+            height: '300px',
+            paddingBottom: '10px',
+            objectFit: 'cover',
+          }}
         />
       </Link>
       <Box

@@ -10,7 +10,6 @@ export interface SelectInterface {
   value: string;
 }
 
-
 export interface FiltersState {
   genreList: SelectInterface[];
   sortOption: SelectInterface;
@@ -18,7 +17,6 @@ export interface FiltersState {
   page: number;
   totalPages: number;
 }
-
 
 export interface FiltersAction {
   type: ACTIONS;
