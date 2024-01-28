@@ -1,17 +1,16 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
 import Filters from '../components/Filters';
 import Films from '../components/Films';
 import { theme } from '../theme/theme';
-import useToken from '../hooks/use-token';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import useUserInfo from '../hooks/use-user-info';
 
 export default function FilmsPage() {
-  const [token] = useToken();
+  const { token } = useUserInfo();
   const navigate = useNavigate();
+
   useEffect(() => {
-    console.log(token);
-    
     if (token == '') {
       navigate('/registration');
     }

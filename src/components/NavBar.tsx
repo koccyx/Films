@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography, Toolbar, Box, AppBar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ModalButton from './modal-button';
 import ProfileButton from './profile-button';
-import useToken from '../hooks/use-token';
+import useUserInfo from '../hooks/use-user-info';
 
 export default function NavBar() {
+  const { token } = useUserInfo();
 
-  
-  const [token] = useToken();
-  
-  
   return (
     <>
       <Box

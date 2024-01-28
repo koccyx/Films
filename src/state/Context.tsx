@@ -129,33 +129,46 @@ interface UserContextProviderProps {
 
 export interface UserContextInterface {
   state: UserInterface;
-  handleMail: (mail: string) => void;
+  handleId: (id: number) => void;
   handleToken: (token: string) => void;
+  handleFavoriteFilms: (film: number) => void;
+  handleArrayFavoriteFilms: (films: number[]) => void;
 }
 
 export const useUserContext = (initState: UserInterface) => {
   const [state, dispatch] = useReducer(userReducer, initState);
 
-  const handleMail = (mail: string) => {
-    dispatch({ type: USER_ACTIONS.SET_MAIL_ACTION, payload: mail });
+  const handleId = (id: number) => {
+    dispatch({ type: USER_ACTIONS.SET_ID_ACTION, payload: id });
   };
 
   const handleToken = (token: string) => {
     dispatch({ type: USER_ACTIONS.SET_TOKEN_ACTION, payload: token });
   };
 
-  return { state, handleMail, handleToken };
+  const handleFavoriteFilms = (film: number) => {
+    dispatch({ type: USER_ACTIONS.SET_FILMS_ACTION, payload: film });
+  };
+
+  const handleArrayFavoriteFilms = (films: number[]) => {
+    dispatch({ type: USER_ACTIONS.SET_ARRAY_FILMS_ACTION, payload: films });
+  };
+
+  return { state, handleId, handleToken, handleFavoriteFilms, handleArrayFavoriteFilms };
 };
 
 export const userDefaultState: UserInterface = {
-  mail: '',
+  id: 0,
   token: '',
+  favoriteFilms: [],
 };
 
 export const UserContext = createContext<UserContextInterface>({
   state: userDefaultState,
-  handleMail: (mail: string) => null,
+  handleId: (id: number) => null,
   handleToken: (token: string) => null,
+  handleFavoriteFilms: (film: number) => null,
+  handleArrayFavoriteFilms: (films: number[]) => null,
 });
 
 export default function ContextProvider({

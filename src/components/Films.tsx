@@ -2,9 +2,14 @@ import React, { useEffect, useContext } from 'react';
 import { Box, Grid, useTheme } from '@mui/material';
 import FilmCard from './FilmCard';
 import { FilmsContext } from '../state/Context';
-import { fetchFilms } from '../utils/fetchFilms';
-import { FiltersContextInterface, FilterContext,UserContext } from '../state/Context';
+import { fetchFilms } from '../api/fetchFilms';
+import {
+  FiltersContextInterface,
+  FilterContext,
+  UserContext,
+} from '../state/Context';
 import Loader from '../utils/loader';
+import FetchFavorites from '../api/fetch-favorites';
 
 export default function Films() {
   const filters: FiltersContextInterface = useContext(FilterContext);
@@ -16,20 +21,32 @@ export default function Films() {
 
   useEffect(() => {
     filmsContext.handleLoading(true);
-    fetchFilms(filters.state.sortOption.value, filters.state.page, userContext.state.token).then(
-      (data) => {
-        filmsContext.handleFilms(data.films);
-        filtersContext.handleTotalPages(data.pages);
-        console.log(data.films);
-        if (data.films.length) filmsContext.handleLoading(false);
-      },
-    );
+    fetchFilms(
+      filters.state.sortOption.value,
+      filters.state.page,
+      userContext.state.token,
+    ).then((data) => {
+      filmsContext.handleFilms(data.films);
+      filtersContext.handleTotalPages(data.pages);
+      if (data.films.length) filmsContext.handleLoading(false);
+    });
   }, [
     filtersContext.state.genreList,
     filtersContext.state.selectedYears,
     filtersContext.state.sortOption,
     filtersContext.state.page,
   ]);
+
+  useEffect(() => {
+    if (userContext.state.id != 0) {
+      FetchFavorites(userContext.state.token, userContext.state.id).then(
+        (data) => {
+          console.log(data);
+          userContext.handleArrayFavoriteFilms(data);
+        },
+      );
+    }
+  }, []);
 
   return (
     <Box>

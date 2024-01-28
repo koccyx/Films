@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FilmPageInterface } from '../utils/fetch-film-info';
+import { FilmPageInterface } from '../api/fetch-film-info';
 import { StyledAboutPage } from '../theme/theme';
 import Loader from '../utils/loader';
-import { Box, Typography, useTheme, IconButton } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
+import { Box, Typography, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import FetchFilmInfo from '../utils/fetch-film-info';
+import FetchFilmInfo from '../api/fetch-film-info';
 import { UserContext } from '../state/Context';
+import FavoritesButton from '../components/favorites-button';
+import FetchFavorites from '../api/fetch-favorites';
 
 const initialState: FilmPageInterface = {
   img: '',
@@ -16,6 +17,7 @@ const initialState: FilmPageInterface = {
   genres: [],
   overview: '',
   releaseYear: 0,
+  id: 0,
 };
 
 export default function About() {
@@ -25,11 +27,32 @@ export default function About() {
   const userContext = useContext(UserContext);
 
   useEffect(() => {
-    if (params.filmId)
-      FetchFilmInfo(params.filmId as unknown as number, userContext.state.token).then((data) =>
-        changeFilmInfo(data),
-      );
-  }, []);
+    if (params.filmId) {
+      const favoritesPromise = userContext.state.token != '' ? FetchFavorites(userContext.state.token, userContext.state.id) : Promise.resolve([]);
+      const promises: Promise<[FilmPageInterface, number[]]> = Promise.all([
+        FetchFilmInfo(
+          params.filmId as unknown as number,
+          userContext.state.token,
+        ),
+        favoritesPromise,
+      ]);
+
+      promises.then((data) => {
+        console.log(data);
+        
+        changeFilmInfo(data[0]);
+        userContext.handleArrayFavoriteFilms(data[1]);
+      });
+      // FetchFilmInfo(
+      //   params.filmId as unknown as number,
+      //   userContext.state.token,
+      // ).then((data) => changeFilmInfo(data));
+      // FetchFavorites(userContext.state.token, userContext.state.id).then(
+      //   (data) => {
+      //     userContext.handleArrayFavoriteFilms(data);
+      //   });
+    }
+  }, [userContext.state.token]);
 
   return (
     <StyledAboutPage>
@@ -72,9 +95,10 @@ export default function About() {
               <Typography variant='h3'>
                 {filmInfo.title} ({filmInfo.releaseYear})
               </Typography>
-              <IconButton sx={{ width: '40px', height: '40px' }}>
-                <StarIcon sx={{ width: '45px', height: '45px' }} />
-              </IconButton>
+              <FavoritesButton
+                sx={{ width: '40px', height: '40px' }}
+                id={filmInfo.id}
+              />
             </Box>
             <Box>
               <Typography variant='h4' sx={{ paddingBottom: '10px' }}>

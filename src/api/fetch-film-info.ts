@@ -11,6 +11,7 @@ export interface FilmPageInterface {
   overview: string;
   releaseYear: number;
   averageVote: number;
+  id: number;
 }
 
 export default async function FetchFilmInfo(
@@ -39,6 +40,7 @@ export default async function FetchFilmInfo(
       overview: data.overview,
       releaseYear: data.release_date.slice(0, 4),
       title: data.title,
+      id: data.id,
     };
     return filmInfo;
   } catch (error: unknown) {
@@ -51,6 +53,7 @@ export default async function FetchFilmInfo(
       genres: [],
       overview: '',
       releaseYear: 0,
+      id: 0,
     };
   }
 }

@@ -1,16 +1,12 @@
 import React from 'react';
-import { Typography, Box, IconButton } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
+import { Typography, Box } from '@mui/material';
 import { FilmsInterface } from '../state/FilmsReducer';
 import { Link } from 'react-router-dom';
 import { StyledCard } from '../theme/theme';
+import FavoritesButton from './favorites-button';
 
 export default function FilmCard(props: FilmsInterface) {
-  const starButtonHandler = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    e.stopPropagation();
-  };
+  
 
   return (
     <StyledCard
@@ -61,9 +57,7 @@ export default function FilmCard(props: FilmsInterface) {
             </Typography>
           </Box>
         </Link>
-        <IconButton onClick={starButtonHandler}>
-          <StarIcon />
-        </IconButton>
+        <FavoritesButton id={props.id}/>
       </Box>
     </StyledCard>
   );
