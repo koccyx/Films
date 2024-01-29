@@ -1,19 +1,19 @@
-import { FilmsInterface } from '../state/FilmsReducer';
+import { FilmsInterface } from '../state/films-reducer';
 
 interface FetchedDate {
   films: FilmsInterface[];
   pages: number;
 }
 
-export async function fetchFilms(
-  option: string,
+export async function fetchFilmsByTitle(
   page: number,
-  token: string
+  token: string,
+  title: string,
 ): Promise<FetchedDate> {
   
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${option}?language=en-US&page=${page}`,
+      `https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=true&language=en-US&page=${page}'`,
       {
         method: 'GET',
         headers: {
@@ -25,7 +25,6 @@ export async function fetchFilms(
       },
     );
     const data = await response.json();
-    console.log(data);
     const films = data.results.map((elem: FilmsInterface) => ({
       title: elem.title,
       poster_path: elem.poster_path,

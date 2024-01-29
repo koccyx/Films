@@ -1,6 +1,6 @@
 # Films web application
 
-My personal pet projec(Kinopoisk analog)
+My personal pet project(Kinopoisk analog)
 
 ## How to run the project?
 

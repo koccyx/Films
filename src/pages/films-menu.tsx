@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Grid } from '@mui/material';
-import Filters from '../components/Filters';
-import Films from '../components/Films';
+import Filters from '../components/filters';
+import Films from '../components/films';
 import { theme } from '../theme/theme';
 import { useNavigate } from 'react-router-dom';
 import useUserInfo from '../hooks/use-user-info';

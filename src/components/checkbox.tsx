@@ -1,15 +1,22 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useContext } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
-import { SelectInterface } from '../state/FilterReducer';
+import { SelectInterface } from '../state/filter-reducer';
 import { SxProps, Theme } from '@mui/material/styles';
+import { FilterContext } from '../state/Context';
 
 interface SelectProps {
-  handleGenres: (newValue: SelectInterface[]) => void;
-  genreList: SelectInterface[];
   sx?: SxProps<Theme>;
 }
 
+const options: SelectInterface[] = [
+  { text: 'Action', value: 'Action' },
+  { text: 'Drama', value: 'Drama' },
+];
+
 export default function CheckBox(props: SelectProps) {
+  const {state, handleGenres} = useContext(FilterContext);
+
+
   return (
     <Autocomplete
       sx={{ width: '100%', ...props.sx }}
@@ -19,7 +26,7 @@ export default function CheckBox(props: SelectProps) {
       options={options}
       isOptionEqualToValue={(option, value) => option.text == value.text}
       getOptionLabel={(option) => option.text}
-      value={props.genreList}
+      value={state.genreList}
       renderInput={(params) => (
         <TextField {...params} label='Genres:' placeholder='Favorites' />
       )}
@@ -27,13 +34,9 @@ export default function CheckBox(props: SelectProps) {
         e: React.SyntheticEvent<Element, Event>,
         newValue: SelectInterface[],
       ) => {
-        props.handleGenres(newValue);
+        handleGenres(newValue);
       }}
     />
   );
 }
 
-const options: SelectInterface[] = [
-  { text: 'Action', value: 'Action' },
-  { text: 'Drama', value: 'Drama' },
-];

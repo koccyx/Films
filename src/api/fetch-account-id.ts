@@ -19,8 +19,6 @@ export default async function FetchAccountId(
       },
     );
     const data = await response.json();
-    console.log(data);
-    
     return {id: data.id as number};
   } catch (error: unknown) {
     console.warn(error);

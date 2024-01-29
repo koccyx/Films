@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Box } from '@mui/material';
-import { FilmsInterface } from '../state/FilmsReducer';
+import { FilmsInterface } from '../state/films-reducer';
 import { Link } from 'react-router-dom';
 import { StyledCard } from '../theme/theme';
 import FavoritesButton from './favorites-button';

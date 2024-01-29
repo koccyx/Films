@@ -1,21 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, useTheme } from '@mui/material';
-import NavBar from '../components/NavBar';
+import NavBar from '../components/navbar';
 import { Outlet } from 'react-router-dom';
-import useCookie from '../hooks/use-user-info';
+import ModalError from '../utils/modal-error';
 
 export default function MainPage() {
   const curTheme = useTheme();
 
-  // const [cooka, setCooka] = useCookie('max');
-
-  // useEffect(()=> {
-  //   setCooka('228');
-  // },[]);
-
-  // debugger;
-  // console.log(cooka);
-  
   return (
     <>
       <NavBar />
@@ -31,6 +22,7 @@ export default function MainPage() {
           <Outlet />
         </Box>
       </Box>
+      <ModalError />
     </>
   );
 }
