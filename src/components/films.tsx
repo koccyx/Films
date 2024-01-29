@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from 'react';
 import { Box, Grid, useTheme } from '@mui/material';
-import FilmCard from './FilmCard';
+import FilmCard from './film-card';
 import { FilmsContext } from '../state/Context';
-import { fetchFilms } from '../api/fetchFilms';
+import { fetchFilms } from '../api/fetch-films';
 import {
   FiltersContextInterface,
   FilterContext,
@@ -56,7 +56,6 @@ export default function Films() {
     if (userContext.state.id != 0) {
       FetchFavorites(userContext.state.token, userContext.state.id).then(
         (data) => {
-          console.log(data);
           userContext.handleArrayFavoriteFilms(data);
         },
       );

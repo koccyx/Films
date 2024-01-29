@@ -38,8 +38,6 @@ export default function About() {
       ]);
 
       promises.then((data) => {
-        console.log(data);
-        
         changeFilmInfo(data[0]);
         userContext.handleArrayFavoriteFilms(data[1]);
       });

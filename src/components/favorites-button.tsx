@@ -29,7 +29,6 @@ export default function FavoritesButton(props: FavoritesButtonInterface) {
     handleFavoriteFilms(props.id);
     postFavorite(state.token, state.id, props.id, !isFavorite).then((data) => {
       try {
-        console.log(data);
         if (!data.success) {
 
           throw new Error('Error favorites');

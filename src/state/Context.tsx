@@ -81,7 +81,7 @@ export const useFiltersContext = (initState: FiltersState) => {
 
 export const filtersDefaultState: FiltersState = {
   genreList: [],
-  sortOption: { text: 'Popularity', value: 'popular' },
+  sortOption: { text: 'popular', value: 'popular'},
   selectedYears: [1970, 2023],
   page: 1,
   totalPages: 1,

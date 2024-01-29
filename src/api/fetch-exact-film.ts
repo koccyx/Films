@@ -25,7 +25,6 @@ export async function fetchFilmsByTitle(
       },
     );
     const data = await response.json();
-    console.log(data);
     const films = data.results.map((elem: FilmsInterface) => ({
       title: elem.title,
       poster_path: elem.poster_path,
