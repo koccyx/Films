@@ -5,6 +5,7 @@ import SelectFilter from './SelectFilter';
 import RangeSlider from './RangeSlider';
 import CheckBox from './CheckBox';
 import { FilterContext } from '../state/Context';
+import SearchFilter from './search-filter';
 
 export default function Filters() {
   const theme = useTheme();
@@ -17,12 +18,12 @@ export default function Filters() {
     filters.handleSort({ text: 'Popularity', value: 'popular' });
     filters.handleYears([1950, 2024]);
   };
-
+  
   return (
     <StyledBox
-      sx={{
-        backgroundColor: theme.palette.background.paper,
-      }}
+    sx={{
+      backgroundColor: theme.palette.background.paper,
+    }}
     >
       <Box
         sx={{ display: 'flex', justifyContent: 'space-between', mb: '15px' }}
@@ -30,6 +31,7 @@ export default function Filters() {
         <Typography variant='h4'>Filters</Typography>
         <Button onClick={handleResetButton} variant='text'>x</Button>
       </Box>
+      <SearchFilter sx={{mb: '30px'}}/>
       <SelectFilter
         sx={{ mb: '40px' }}
         handleSort={filters.handleSort}

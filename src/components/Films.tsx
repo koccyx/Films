@@ -10,6 +10,8 @@ import {
 } from '../state/Context';
 import Loader from '../utils/loader';
 import FetchFavorites from '../api/fetch-favorites';
+import { fetchFilmsByTitle } from '../api/fetch-exact-film';
+import ModalError from '../utils/modal-error';
 
 export default function Films() {
   const filters: FiltersContextInterface = useContext(FilterContext);
@@ -21,20 +23,33 @@ export default function Films() {
 
   useEffect(() => {
     filmsContext.handleLoading(true);
-    fetchFilms(
-      filters.state.sortOption.value,
-      filters.state.page,
-      userContext.state.token,
-    ).then((data) => {
-      filmsContext.handleFilms(data.films);
-      filtersContext.handleTotalPages(data.pages);
-      if (data.films.length) filmsContext.handleLoading(false);
-    });
+    if (filtersContext.state.filmTitle != '') {
+      fetchFilmsByTitle(
+        filtersContext.state.page,
+        userContext.state.token,
+        filtersContext.state.filmTitle,
+      ).then((data) => {
+        filmsContext.handleFilms(data.films);
+        filtersContext.handleTotalPages(data.pages);
+        if (data.films.length) filmsContext.handleLoading(false);
+      });
+    } else {
+      fetchFilms(
+        filters.state.sortOption.value,
+        filters.state.page,
+        userContext.state.token,
+      ).then((data) => {
+        filmsContext.handleFilms(data.films);
+        filtersContext.handleTotalPages(data.pages);
+        if (data.films.length) filmsContext.handleLoading(false);
+      });
+    }
   }, [
     filtersContext.state.genreList,
     filtersContext.state.selectedYears,
     filtersContext.state.sortOption,
     filtersContext.state.page,
+    filtersContext.state.filmTitle,
   ]);
 
   useEffect(() => {
@@ -53,11 +68,12 @@ export default function Films() {
       {filmsContext.state.isLoading ? (
         <Loader />
       ) : (
+        <>
         <Grid container spacing={curTheme.spacing(2)}>
           {filmsContext.state.films.map((film) => {
             return (
               <Grid
-                key={film.title}
+                key={film.id}
                 item
                 xs={12}
                 sm={6}
@@ -78,6 +94,7 @@ export default function Films() {
             );
           })}
         </Grid>
+        </>
       )}
     </Box>
   );

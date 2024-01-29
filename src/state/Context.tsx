@@ -5,20 +5,26 @@ import {
   filterReducer,
   ACTIONS,
   SelectInterface,
-} from './FilterReducer';
+} from './filter-reducer';
 
 import {
   FILMS_ACTIONS,
   FilmsInterface,
   FilmsState,
   filmsReducer,
-} from './FilmsReducer';
+} from './films-reducer';
 
 import {
   USER_ACTIONS,
   UserInterface,
   userReducer,
-} from './UserReducer';
+} from './user-reducer';
+
+import {
+  ERROR_ACTIONS,
+  ErrorInterface,
+  errorReducer,
+} from './error-reducer';
 
 interface ContextProviderProps {
   children: ReactNode;
@@ -34,6 +40,7 @@ export interface FiltersContextInterface {
   handleSort: (sortBy: SelectInterface) => void;
   handlePage: (page: number) => void;
   handleTotalPages: (total_pages: number) => void;
+  handleFilmTitle: (filmTitle: string) => void;
 }
 
 export const useFiltersContext = (initState: FiltersState) => {
@@ -57,6 +64,9 @@ export const useFiltersContext = (initState: FiltersState) => {
   const handleTotalPages = (total_pages: number) => {
     dispatch({ type: ACTIONS.TOTAL_PAGE_ACTION, payload: total_pages });
   };
+  const handleFilmTitle = (filmTitle: string) => {
+    dispatch({ type: ACTIONS.FILM_TITLE_ACTION, payload: filmTitle });
+  };
 
   return {
     state,
@@ -65,6 +75,7 @@ export const useFiltersContext = (initState: FiltersState) => {
     handleSort,
     handlePage,
     handleTotalPages,
+    handleFilmTitle,
   };
 };
 
@@ -74,6 +85,7 @@ export const filtersDefaultState: FiltersState = {
   selectedYears: [1970, 2023],
   page: 1,
   totalPages: 1,
+  filmTitle: '',
 };
 
 export const FilterContext = createContext<FiltersContextInterface>({
@@ -83,6 +95,7 @@ export const FilterContext = createContext<FiltersContextInterface>({
   handleSort: (sortBy: SelectInterface) => null,
   handlePage: (page: number) => null,
   handleTotalPages: (total_pages: number) => null,
+  handleFilmTitle: (filmTitle: string) => null,
 });
 
 interface FilmsContextProviderProps {
@@ -171,6 +184,43 @@ export const UserContext = createContext<UserContextInterface>({
   handleArrayFavoriteFilms: (films: number[]) => null,
 });
 
+
+//======================================================
+
+
+
+interface ErrorContextProviderProps {
+  children: ReactNode;
+  defaultState: ErrorInterface;
+}
+
+export interface ErrorContextInterface {
+  state: ErrorInterface;
+  handleError: (error: ErrorInterface) => void,
+}
+
+export const useErrorContext = (initState: ErrorInterface) => {
+  const [state, dispatch] = useReducer(errorReducer, initState);
+
+  const handleError = (error: ErrorInterface) => {
+    dispatch({ type: ERROR_ACTIONS.SET_ERROR, payload: error });
+  };
+
+
+  return { state, handleError};
+};
+
+const errorDefaultState: ErrorInterface = {
+  errorText: '',
+  isError: false,
+};
+
+export const ErrorContext = createContext<ErrorContextInterface>({
+  state: errorDefaultState,
+  handleError: (error: ErrorInterface) => null,
+});
+
+
 export default function ContextProvider({
   children,
   filtersDefaultState,
@@ -181,7 +231,9 @@ export default function ContextProvider({
     <FilmsContext.Provider value={{ ...useFilmsContext(filmsDefaultState) }}>
       <FilterContext.Provider value={{ ...useFiltersContext(filtersDefaultState) }}>
         <UserContext.Provider value={{...useUserContext(userDefaultState)}}>
-          {children}
+          <ErrorContext.Provider value={{...useErrorContext(errorDefaultState)}}>
+            {children}
+          </ErrorContext.Provider>
         </UserContext.Provider>
       </FilterContext.Provider>
     </FilmsContext.Provider>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputLabel, Box, MenuItem } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import { FiltersAction, SelectInterface } from '../state/FilterReducer';
+import { FiltersAction, SelectInterface } from '../state/filter-reducer';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface SelectProps {

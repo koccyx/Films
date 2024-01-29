@@ -4,6 +4,7 @@ export enum ACTIONS {
   SORT_ACTION = 'SORT_ACTION',
   PAGE_ACTION = 'PAGE_ACTION',
   TOTAL_PAGE_ACTION = 'TOTAL_PAGE_ACTION',
+  FILM_TITLE_ACTION = 'FILM_TITLE_ACTION',
 }
 export interface SelectInterface {
   text: string;
@@ -16,11 +17,12 @@ export interface FiltersState {
   selectedYears: number[];
   page: number;
   totalPages: number;
+  filmTitle: string;
 }
 
 export interface FiltersAction {
   type: ACTIONS;
-  payload: SelectInterface | number[] | SelectInterface[] | number;
+  payload: SelectInterface | number[] | SelectInterface[] | number | string;
 }
 
 export function filterReducer(
@@ -59,6 +61,12 @@ export function filterReducer(
       return {
         ...state,
         totalPages: action.payload as number,
+      };
+    }
+    case ACTIONS.FILM_TITLE_ACTION: {
+      return {
+        ...state,
+        filmTitle: action.payload as string,
       };
     }
     default: {

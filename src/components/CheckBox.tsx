@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
-import { SelectInterface } from '../state/FilterReducer';
+import { SelectInterface } from '../state/filter-reducer';
 import { SxProps, Theme } from '@mui/material/styles';
 
 interface SelectProps {

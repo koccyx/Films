@@ -5,15 +5,15 @@ interface FetchedDate {
   pages: number;
 }
 
-export async function fetchFilms(
-  option: string,
+export async function fetchFilmsByTitle(
   page: number,
-  token: string
+  token: string,
+  title: string,
 ): Promise<FetchedDate> {
   
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${option}?language=en-US&page=${page}`,
+      `https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=true&language=en-US&page=${page}'`,
       {
         method: 'GET',
         headers: {
