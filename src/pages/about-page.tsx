@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FilmPageInterface } from '../api/fetch-film-info';
 import { StyledAboutPage } from '../theme/theme';
 import Loader from '../utils/loader';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import FetchFilmInfo from '../api/fetch-film-info';
-import { UserContext } from '../state/Context';
 import FavoritesButton from '../components/favorites-button';
-import FetchFavorites from '../api/fetch-favorites';
+import useUserInfo from '../hooks/use-user-info';
+import { fetchFavorites } from '../state/thunks/films-thunks';
+import { useAppDispatch } from '../hooks/redux-hooks';
 
 const initialState: FilmPageInterface = {
   img: '',
@@ -24,33 +25,18 @@ export default function About() {
   const [filmInfo, changeFilmInfo] = useState<FilmPageInterface>(initialState);
   const theme = useTheme();
   const params = useParams();
-  const userContext = useContext(UserContext);
+
+  const dispatch = useAppDispatch();
+  const { token, id } = useUserInfo();
 
   useEffect(() => {
-    if (params.filmId) {
-      const favoritesPromise = userContext.state.token != '' ? FetchFavorites(userContext.state.token, userContext.state.id) : Promise.resolve([]);
-      const promises: Promise<[FilmPageInterface, number[]]> = Promise.all([
-        FetchFilmInfo(
-          params.filmId as unknown as number,
-          userContext.state.token,
-        ),
-        favoritesPromise,
-      ]);
-
-      promises.then((data) => {
-        changeFilmInfo(data[0]);
-        userContext.handleArrayFavoriteFilms(data[1]);
+    if (params.filmId && token) {
+      FetchFilmInfo(params.filmId as unknown as number, token).then((data) => {
+        changeFilmInfo(data);
       });
-      // FetchFilmInfo(
-      //   params.filmId as unknown as number,
-      //   userContext.state.token,
-      // ).then((data) => changeFilmInfo(data));
-      // FetchFavorites(userContext.state.token, userContext.state.id).then(
-      //   (data) => {
-      //     userContext.handleArrayFavoriteFilms(data);
-      //   });
+      dispatch(fetchFavorites({ token, accountId: id }));
     }
-  }, [userContext.state.token]);
+  }, [token]);
 
   return (
     <StyledAboutPage>

@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Box, Modal } from '@mui/material';
 import ModalInput from '../utils/modal-input';
 import { useNavigate } from 'react-router-dom';
-import FetchAccountId from '../api/fetch-account-id';
 import useUserInfo from '../hooks/use-user-info';
-import { UserContext } from '../state/Context';
+import { fetchUserId } from '../state/thunks/user-thunks';
+import { useAppDispatch } from '../hooks/redux-hooks';
 
 interface PropsInterface {
   handleOpen: () => void;
@@ -17,7 +17,9 @@ export default function TokenModal(props: PropsInterface) {
   const [localToken, setLocalToken] = useState('');
   const navigate = useNavigate();
 
-  const { setToken, setId } = useUserInfo();
+  const dispatch = useAppDispatch();
+
+  const { setToken } = useUserInfo();
 
   const changeTokenHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalToken(e.target.value);
@@ -26,7 +28,7 @@ export default function TokenModal(props: PropsInterface) {
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setToken(localToken);
-    FetchAccountId(localToken).then((data) => setId(data.id));
+    dispatch(fetchUserId({ token: localToken }));
     navigate('/');
     props.handleClose();
   };

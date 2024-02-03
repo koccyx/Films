@@ -27,7 +27,7 @@ export default async function FetchFilmInfo(
           accept: 'application/json',
           Authorization:
             // 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxYTgwODIyYTQyMDJiZWY2NDk0MDM5NzlmYmRhZGUzMSIsInN1YiI6IjY1OGNhMDNiMzIzZWJhMTA3MjM2NjliZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z5-6kkUmTCkqWiAf_YuxOZxmpmgko-6IaK4662xJUV4',
-            `Bearer ${token}`
+            `Bearer ${token}`,
         },
       },
     );
@@ -42,6 +42,7 @@ export default async function FetchFilmInfo(
       title: data.title,
       id: data.id,
     };
+
     return filmInfo;
   } catch (error: unknown) {
     console.warn(error);

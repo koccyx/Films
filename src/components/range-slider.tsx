@@ -1,19 +1,20 @@
-import React, { useContext } from 'react';
 import { Slider, Typography, Box } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import { FilterContext } from '../state/Context';
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
+import { filterSlice } from '../state/slices/filter-slice';
 
 interface SelectProps {
   sx?: SxProps<Theme>;
 }
 
 export default function RangeSlider(props: SelectProps) {
-  const {state, handleYears} = useContext(FilterContext);
+  const { setYears } = filterSlice.actions;
+  const dispatch = useAppDispatch();
+  const { selectedYears } = useAppSelector((state) => state.filterReducer);
 
   const handleChange = (e: Event, newValue: number | number[]) => {
-    handleYears(newValue as number[]);
+    dispatch(setYears(newValue as number[]));
   };
-
 
   return (
     <Box sx={{ ...props.sx }}>
@@ -22,7 +23,7 @@ export default function RangeSlider(props: SelectProps) {
       </Typography>
       <Slider
         getAriaLabel={() => 'Temperature range'}
-        value={state.selectedYears}
+        value={selectedYears}
         onChange={handleChange}
         valueLabelDisplay='on'
         min={1950}

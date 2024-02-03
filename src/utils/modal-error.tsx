@@ -1,25 +1,29 @@
-import React, { useContext } from 'react';
 import { StyledModal } from '../theme/theme';
 import { Box, Typography, Button, useTheme, Modal } from '@mui/material';
-import { ErrorContext } from '../state/Context';
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
+import { filmsSlice } from '../state/slices/films-slice';
 
 export default function ModalError() {
-  const errorContext = useContext(ErrorContext);
+  const { isError } = useAppSelector((state) => state.filmsReducer);
+  const dispatch = useAppDispatch();
+  const { setError } = filmsSlice.actions;
 
   const handleClose = () => {
-    errorContext.handleError({errorText: '', isError: false});
+    dispatch(setError(false));
   };
 
   const theme = useTheme();
   return (
-    <Modal open={errorContext.state.isError}>
+    <Modal open={isError}>
       <StyledModal>
-        <Box component={'form'} sx={{display: 'flex', flexDirection: 'column', gap: '40px'}}>
+        <Box
+          component={'form'}
+          sx={{ display: 'flex', flexDirection: 'column', gap: '40px' }}
+        >
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'flex-end',
-              // paddingBottom: '30px',
             }}
           >
             <Button
@@ -29,8 +33,13 @@ export default function ModalError() {
               X
             </Button>
           </Box>
-          <Typography id='modal-modal-title' variant='h4' component='h2' sx={{textAlign: 'center'}}>
-            {errorContext.state.errorText}
+          <Typography
+            id='modal-modal-title'
+            variant='h4'
+            component='h2'
+            sx={{ textAlign: 'center' }}
+          >
+            Problems with internet connection, please, try again
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button

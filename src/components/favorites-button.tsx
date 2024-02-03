@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconButton } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { SxProps, Theme } from '@mui/material/styles';
-import { ErrorContext, UserContext } from '../state/Context';
-import postFavorite from '../api/post-favorites';
+import { postFavorite } from '../state/thunks/films-thunks';
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
+import { filmsSlice } from '../state/slices/films-slice';
+import useUserInfo from '../hooks/use-user-info';
 
 interface FavoritesButtonInterface {
   sx?: SxProps<Theme>;
@@ -11,34 +13,29 @@ interface FavoritesButtonInterface {
 }
 
 export default function FavoritesButton(props: FavoritesButtonInterface) {
-  const { state, handleFavoriteFilms } = useContext(UserContext);
-
-  const { handleError } = useContext(ErrorContext);
+  const { favoriteFilms } = useAppSelector((state) => state.filmsReducer);
+  const dispatch = useAppDispatch();
+  const { setFavoriteFilm } = filmsSlice.actions;
+  const { id, token } = useUserInfo();
 
   const [isFavorite, setIsFavorite] = useState(
-    state.favoriteFilms.includes(props.id),
+    favoriteFilms.includes(props.id),
   );
 
   useEffect(() => {
-    setIsFavorite(state.favoriteFilms.includes(props.id));
-  }, [state.favoriteFilms]);
+    setIsFavorite(favoriteFilms.includes(props.id));
+  }, [favoriteFilms]);
 
-  const starButtonHandler = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    handleFavoriteFilms(props.id);
-    postFavorite(state.token, state.id, props.id, !isFavorite).then((data) => {
-      try {
-        if (!data.success) {
-
-          throw new Error('Error favorites');
-        }
-      } catch (error: unknown) {
-        handleError({errorText: 'Please check internet connection(', isError: true});
-        console.log(error);
-        handleFavoriteFilms(props.id);
-      }
-    });
+  const starButtonHandler = () => {
+    dispatch(setFavoriteFilm(props.id));
+    dispatch(
+      postFavorite({
+        token: token,
+        filmId: props.id,
+        isFavorite: !isFavorite,
+        userId: id,
+      }),
+    );
   };
 
   return (

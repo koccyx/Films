@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@mui/material';
 import MailModal from './mail-modal';
 import TokenModal from './token-modal';
-
 
 export default function ModalButton() {
   const [openMailModal, setOpenMailModal] = useState(false);
@@ -24,7 +23,10 @@ export default function ModalButton() {
 
   return (
     <>
-      <Button onClick={handleMailOpen} sx={{color: 'white', fontSize: '20px'}}>
+      <Button
+        onClick={handleMailOpen}
+        sx={{ color: 'white', fontSize: '20px' }}
+      >
         Login
       </Button>
       <MailModal

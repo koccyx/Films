@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Grid } from '@mui/material';
 import Filters from '../components/filters';
 import Films from '../components/films';

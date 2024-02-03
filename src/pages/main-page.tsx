@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, useTheme } from '@mui/material';
 import NavBar from '../components/navbar';
 import { Outlet } from 'react-router-dom';

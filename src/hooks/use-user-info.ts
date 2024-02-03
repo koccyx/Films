@@ -1,5 +1,6 @@
-import { useContext, useEffect } from 'react';
-import { UserContext } from '../state/Context';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from './redux-hooks';
+import { userSlice } from '../state/slices/user-slice';
 
 export default function useUserInfo(): {
   id: number;
@@ -7,9 +8,11 @@ export default function useUserInfo(): {
   setId: (id: number) => void;
   setToken: (token: string) => void;
 } {
-  const { state, handleId, handleToken } = useContext(UserContext);
-  
-  
+  // const { state, handleId, handleToken } = useContext(UserContext);
+  const dispatch = useAppDispatch();
+  const { userId, token } = useAppSelector((state) => state.userReducer);
+  const { setUserId, setToken } = userSlice.actions;
+
   useEffect(() => {
     const cookieData = document.cookie
       .split(';')
@@ -19,24 +22,23 @@ export default function useUserInfo(): {
     if (cookieData.length > 0) {
       cookieData.forEach((item) => {
         if (item[0] == 'token') {
-          handleToken(item[1]);
+          dispatch(setToken(item[1]));
         } else if (item[0] == 'id') {
-          handleId(Number(item[1]));
+          dispatch(setUserId(Number(item[1])));
         }
       });
     }
   }, []);
-  
-  const setToken = (token: string) => {
+
+  const setNewToken = (token: string) => {
     document.cookie = `token=${token}; max-age=720000`;
-    handleToken(token);
-  };
-  
-  
-  const setId = (id: number) => {
-    document.cookie = `id=${id}; max-age=720000`;
-    handleId(id);
+    dispatch(setToken(token));
   };
 
-  return { id: state.id, token: state.token, setToken, setId };
+  const setId = (id: number) => {
+    document.cookie = `id=${id}; max-age=720000`;
+    dispatch(setUserId(id));
+  };
+
+  return { id: userId, token: token, setToken: setNewToken, setId };
 }

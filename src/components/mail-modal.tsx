@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Modal,
-  Box,
-} from '@mui/material';
+import { Modal, Box } from '@mui/material';
 import { validateMail } from '../utils/regex';
 import ModalInput from '../utils/modal-input';
 

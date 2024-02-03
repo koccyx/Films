@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyledModal } from '../theme/theme';
 import { Box, Typography, Button, TextField, useTheme } from '@mui/material';
 
@@ -14,7 +13,6 @@ interface PropsInterface {
 }
 
 export default function ModalInput(props: PropsInterface) {
-
   const theme = useTheme();
   return (
     <StyledModal>
@@ -38,7 +36,10 @@ export default function ModalInput(props: PropsInterface) {
         </Box>
         <TextField
           error={props.isError}
-          helperText={props.isError && `Invalid ${props.errorText || 'smth'}, please, try again...`}
+          helperText={
+            props.isError &&
+            `Invalid ${props.errorText || 'smth'}, please, try again...`
+          }
           sx={{ width: '100%', mb: '20px' }}
           variant={'outlined'}
           label={props.placeholder || 'smth'}

@@ -1,25 +1,26 @@
-import React, { useContext } from 'react';
-import { Pagination as Paginator }  from '@mui/material';
-import { SxProps, Theme } from '@mui/material/styles';
-import { FilterContext } from '../state/Context';
+import { Pagination as Paginator } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
+import { filterSlice } from '../state/slices/filter-slice';
 
-interface propsInterface {
-  sx?: SxProps<Theme>;
-}
+export default function Pagination() {
+  const { setPage } = filterSlice.actions;
+  const dispatch = useAppDispatch();
+  const { page } = useAppSelector((state) => state.filterReducer);
+  const { totalPages } = useAppSelector((state) => state.filmsReducer);
 
-export default function Pagination(props: propsInterface) {
-  const {state, handlePage} = useContext(FilterContext);
-
+  const setCurrentPage = (page: number) => {
+    dispatch(setPage(page));
+  };
 
   return (
     <Paginator
-        count={state.totalPages}
-        sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-        size='medium'
-        page={state.page}
-        onChange={(event: React.ChangeEvent<unknown>, value: number) => {
-          handlePage(value);
-        }}
-      /> 
+      count={totalPages}
+      sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+      size='medium'
+      page={page}
+      onChange={(event: React.ChangeEvent<unknown>, value: number) => {
+        setCurrentPage(value);
+      }}
+    />
   );
 }

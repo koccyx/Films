@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import useUserInfo from '../hooks/use-user-info';
-import { UserContext } from '../state/Context';
 
 export default function ProfileButton() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { setToken } = useUserInfo();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {

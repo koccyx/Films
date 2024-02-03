@@ -1,34 +1,42 @@
-import React, { useContext } from 'react';
 import { InputLabel, Box, MenuItem } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import { FiltersAction, SelectInterface } from '../state/filter-reducer';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { FilterContext } from '../state/Context';
+import Select from '@mui/material/Select';
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
+import { filterSlice } from '../state/slices/filter-slice';
 
 interface SelectProps {
   sx?: SxProps<Theme>;
-  // handleSort: (sortBy: SelectInterface) => void;
-  // sortOption: SelectInterface;
+}
+
+interface SelectInterface {
+  text: string;
+  value: string;
 }
 
 const options: SelectInterface[] = [
-  { text: 'Top rate', value: 'top_rated'},
-  { text: 'Popularity', value: 'popular'},
+  { text: 'Top rate', value: 'top_rated' },
+  { text: 'Popularity', value: 'popular' },
 ];
 
 export default function SelectFilter(props: SelectProps) {
+  const { setSortOptions } = filterSlice.actions;
+  const dispatch = useAppDispatch();
+  const { sortOption } = useAppSelector((state) => state.filterReducer);
 
-  const {state,handleSort } = useContext(FilterContext);
+  const setSort = (elem: SelectInterface) => {
+    dispatch(setSortOptions(elem));
+  };
+
   return (
     <Box sx={{ ...props.sx }}>
       <InputLabel>Sort By:</InputLabel>
-      <Select value={state.sortOption.value}>
+      <Select value={sortOption.value}>
         {options.map((elem) => (
           <MenuItem
             key={elem.value}
             value={elem.value}
             onClick={() => {
-              handleSort(elem);
+              setSort(elem);
               return;
             }}
           >

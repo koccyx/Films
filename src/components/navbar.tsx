@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { Typography, Toolbar, Box, AppBar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ModalButton from './modal-button';
