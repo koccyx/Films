@@ -1,28 +1,19 @@
 import { useEffect, useState } from 'react';
-import { FilmPageInterface } from '../api/fetch-film-info';
-import { StyledAboutPage } from '../theme/theme';
-import Loader from '../utils/loader';
+import { StyledAboutPage } from '../../theme/theme';
+import Loader from '../../utils/loader';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import FetchFilmInfo from '../api/fetch-film-info';
-import FavoritesButton from '../components/favorites-button';
-import useUserInfo from '../hooks/use-user-info';
-import { fetchFavorites } from '../state/thunks/films-thunks';
-import { useAppDispatch } from '../hooks/redux-hooks';
-
-const initialState: FilmPageInterface = {
-  img: '',
-  title: null,
-  averageVote: 0,
-  country: '',
-  genres: [],
-  overview: '',
-  releaseYear: 0,
-  id: 0,
-};
+import FetchFilmInfo from '../../api/fetch-film-info';
+import FavoritesButton from '../../components/buttons/favorites-button/favorites-button';
+import useUserInfo from '../../hooks/use-user-info';
+import { fetchFavorites } from '../../state/thunks/films-thunks';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { initialState } from './const';
+import { FilmPage } from './types';
+import { imgStyle } from './styles';
 
 export default function About() {
-  const [filmInfo, changeFilmInfo] = useState<FilmPageInterface>(initialState);
+  const [filmInfo, changeFilmInfo] = useState<FilmPage>(initialState);
   const theme = useTheme();
   const params = useParams();
 
@@ -47,18 +38,7 @@ export default function About() {
           <Box
             component={'img'}
             src={`https://image.tmdb.org/t/p/original/${filmInfo.img}`}
-            sx={{
-              maxWidth: '400px',
-              maxHeight: '500px',
-              [theme.breakpoints.down('md')]: {
-                width: '300px',
-                height: '450px',
-              },
-              [theme.breakpoints.down('sm')]: {
-                width: '280px',
-                height: '400px',
-              },
-            }}
+            sx={imgStyle(theme)}
           />
           <Box
             sx={{

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Modal, Box } from '@mui/material';
-import { validateMail } from '../utils/regex';
-import ModalInput from '../utils/modal-input';
+import { validateMail } from '../../../utils/regex';
+import ModalInput from '../../../utils/modal-input';
 
-interface PropsInterface {
+interface Props {
   handleOpen: () => void;
   handleClose: () => void;
   submitHandler: () => void;
   open: boolean;
 }
 
-export default function MailModal(props: PropsInterface) {
+export default function MailModal(props: Props) {
   const [mail, setMail] = useState<string>('');
   const [isError, setError] = useState(false);
 

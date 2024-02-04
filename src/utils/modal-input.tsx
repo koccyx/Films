@@ -1,7 +1,7 @@
 import { StyledModal } from '../theme/theme';
 import { Box, Typography, Button, TextField, useTheme } from '@mui/material';
 
-interface PropsInterface {
+interface Props {
   handleClose: () => void;
   submitHandler: (e: React.SyntheticEvent) => void;
   onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -12,7 +12,7 @@ interface PropsInterface {
   placeholder?: string;
 }
 
-export default function ModalInput(props: PropsInterface) {
+export default function ModalInput(props: Props) {
   const theme = useTheme();
   return (
     <StyledModal>

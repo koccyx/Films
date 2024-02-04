@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@mui/material';
-import MailModal from './mail-modal';
-import TokenModal from './token-modal';
+import MailModal from '../../modals/mail-modal/mail-modal';
+import TokenModal from '../../modals/token-modal/token-modal';
 
 export default function ModalButton() {
   const [openMailModal, setOpenMailModal] = useState(false);

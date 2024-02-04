@@ -1,7 +1,7 @@
 import { Slider, Typography, Box } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
-import { filterSlice } from '../state/slices/filter-slice';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { filterSlice } from '../../../state/slices/filter-slice';
 
 interface SelectProps {
   sx?: SxProps<Theme>;

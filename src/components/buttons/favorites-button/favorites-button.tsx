@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { IconButton } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { SxProps, Theme } from '@mui/material/styles';
-import { postFavorite } from '../state/thunks/films-thunks';
-import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
-import { filmsSlice } from '../state/slices/films-slice';
-import useUserInfo from '../hooks/use-user-info';
+import { postFavorite } from '../../../state/thunks/films-thunks';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { filmsSlice } from '../../../state/slices/films-slice';
+import useUserInfo from '../../../hooks/use-user-info';
 
-interface FavoritesButtonInterface {
+interface Props {
   sx?: SxProps<Theme>;
   id: number;
 }
 
-export default function FavoritesButton(props: FavoritesButtonInterface) {
+export default function FavoritesButton(props: Props) {
   const { favoriteFilms } = useAppSelector((state) => state.filmsReducer);
   const dispatch = useAppDispatch();
   const { setFavoriteFilm } = filmsSlice.actions;
@@ -25,6 +25,8 @@ export default function FavoritesButton(props: FavoritesButtonInterface) {
   useEffect(() => {
     setIsFavorite(favoriteFilms.includes(props.id));
   }, [favoriteFilms]);
+
+  setIsFavorite(favoriteFilms.includes(props.id));
 
   const starButtonHandler = () => {
     dispatch(setFavoriteFilm(props.id));

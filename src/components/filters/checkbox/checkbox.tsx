@@ -1,30 +1,27 @@
 import React from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
-import { filterSlice } from '../state/slices/filter-slice';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { filterSlice } from '../../../state/slices/filter-slice';
+import { Select } from './types';
+import { options } from './const';
 
-interface SelectProps {
+
+interface props {
   sx?: SxProps<Theme>;
 }
 
-interface SelectInterface {
-  text: string;
-  value: string;
-}
-
-const options: SelectInterface[] = [
-  { text: 'Action', value: 'Action' },
-  { text: 'Drama', value: 'Drama' },
-];
-
-export default function CheckBox(props: SelectProps) {
+export default function CheckBox(props: props) {
   const { setGenre } = filterSlice.actions;
   const dispatch = useAppDispatch();
   const { genreList } = useAppSelector((state) => state.filterReducer);
 
-  const setGenres = (genreList: SelectInterface[]) => {
-    dispatch(setGenre(genreList));
+
+  const autoCompleteHandler = (
+    e: React.SyntheticEvent<Element, Event>,
+    newValue: Select[],
+  ) => {
+    dispatch(setGenre(newValue));
   };
 
   return (
@@ -40,12 +37,7 @@ export default function CheckBox(props: SelectProps) {
       renderInput={(params) => (
         <TextField {...params} label='Genres:' placeholder='Favorites' />
       )}
-      onChange={(
-        e: React.SyntheticEvent<Element, Event>,
-        newValue: SelectInterface[],
-      ) => {
-        setGenres(newValue);
-      }}
+      onChange={autoCompleteHandler}
     />
   );
 }

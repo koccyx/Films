@@ -1,10 +1,10 @@
 import { Box, useTheme, Typography } from '@mui/material';
-import { StyledBox } from '../theme/theme';
-import SelectFilter from './select-filter';
-import RangeSlider from './range-slider';
-import CheckBox from './checkbox';
-import SearchFilter from './search-filter';
-import Pagination from './pagination';
+import { StyledBox } from '../../theme/theme';
+import SelectFilter from './select/select-filter';
+import RangeSlider from './slider/range-slider';
+import CheckBox from './checkbox/checkbox';
+import SearchFilter from './input-filter/search-filter';
+import Pagination from './pagination/pagination';
 export default function Filters() {
   const theme = useTheme();
 

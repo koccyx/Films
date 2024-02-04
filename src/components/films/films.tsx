@@ -1,21 +1,20 @@
 import { useEffect } from 'react';
 import { Box, Grid, useTheme } from '@mui/material';
-import FilmCard from './film-card';
-import Loader from '../utils/loader';
-import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
+import FilmCard from '../film-card/film-card';
+import Loader from '../../utils/loader';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import {
   fetchFilms,
   fetchFavorites,
   findByTitle,
-} from '../state/thunks/films-thunks';
-import useUserInfo from '../hooks/use-user-info';
+} from '../../state/thunks/films-thunks';
+import useUserInfo from '../../hooks/use-user-info';
 
 export default function Films() {
   const curTheme = useTheme();
 
   const dispatch = useAppDispatch();
-  const { genreList, page, selectedYears, sortOption, filmTitle } =
-    useAppSelector((state) => state.filterReducer);
+  const { genreList, page, selectedYears, sortOption, filmTitle } = useAppSelector((state) => state.filterReducer);
   const { films, isLoading } = useAppSelector((state) => state.filmsReducer);
 
   const { token, id } = useUserInfo();

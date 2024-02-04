@@ -1,8 +1,8 @@
 import { Typography, Toolbar, Box, AppBar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import ModalButton from './modal-button';
-import ProfileButton from './profile-button';
-import useUserInfo from '../hooks/use-user-info';
+import ModalButton from '../buttons/modal-button/modal-button';
+import ProfileButton from '../buttons/profile-button/profile-button';
+import useUserInfo from '../../hooks/use-user-info';
 
 export default function NavBar() {
   const { token } = useUserInfo();

@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { Box, Modal } from '@mui/material';
-import ModalInput from '../utils/modal-input';
+import ModalInput from '../../../utils/modal-input';
 import { useNavigate } from 'react-router-dom';
-import useUserInfo from '../hooks/use-user-info';
-import { fetchUserId } from '../state/thunks/user-thunks';
-import { useAppDispatch } from '../hooks/redux-hooks';
+import useUserInfo from '../../../hooks/use-user-info';
+import { fetchUserId } from '../../../state/thunks/user-thunks';
+import { useAppDispatch } from '../../../hooks/redux-hooks';
 
-interface PropsInterface {
+interface Props {
   handleOpen: () => void;
   handleClose: () => void;
   submitHandler: () => void;
   open: boolean;
 }
 
-export default function TokenModal(props: PropsInterface) {
+export default function TokenModal(props: Props) {
   const [localToken, setLocalToken] = useState('');
   const navigate = useNavigate();
 

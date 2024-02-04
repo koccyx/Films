@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import useUserInfo from '../hooks/use-user-info';
+import useUserInfo from '../../../hooks/use-user-info';
 
 export default function ProfileButton() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

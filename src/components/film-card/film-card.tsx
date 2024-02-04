@@ -1,16 +1,16 @@
 import { Typography, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { StyledCard } from '../theme/theme';
-import FavoritesButton from './favorites-button';
+import { StyledCard } from '../../theme/theme';
+import FavoritesButton from '../buttons/favorites-button/favorites-button';
 
-interface FilmsInterface {
+interface Props {
   poster_path: string;
   title: string;
   vote_average: number;
   id: number;
 }
 
-export default function FilmCards(props: FilmsInterface) {
+export default function FilmCards(props: Props) {
   return (
     <StyledCard
       sx={{

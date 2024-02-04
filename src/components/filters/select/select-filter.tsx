@@ -1,29 +1,21 @@
 import { InputLabel, Box, MenuItem } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
 import Select from '@mui/material/Select';
-import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
-import { filterSlice } from '../state/slices/filter-slice';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { filterSlice } from '../../../state/slices/filter-slice';
+import { Select as SelectType } from './types';
+import { options } from './const';
 
 interface SelectProps {
   sx?: SxProps<Theme>;
 }
-
-interface SelectInterface {
-  text: string;
-  value: string;
-}
-
-const options: SelectInterface[] = [
-  { text: 'Top rate', value: 'top_rated' },
-  { text: 'Popularity', value: 'popular' },
-];
 
 export default function SelectFilter(props: SelectProps) {
   const { setSortOptions } = filterSlice.actions;
   const dispatch = useAppDispatch();
   const { sortOption } = useAppSelector((state) => state.filterReducer);
 
-  const setSort = (elem: SelectInterface) => {
+  const sortHandler = (elem: SelectType) => {
     dispatch(setSortOptions(elem));
   };
 
@@ -35,10 +27,7 @@ export default function SelectFilter(props: SelectProps) {
           <MenuItem
             key={elem.value}
             value={elem.value}
-            onClick={() => {
-              setSort(elem);
-              return;
-            }}
+            onClick={() => sortHandler(elem)}
           >
             {elem.text}
           </MenuItem>

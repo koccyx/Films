@@ -1,7 +1,7 @@
 import { Box, useTheme } from '@mui/material';
-import NavBar from '../components/navbar';
+import NavBar from '../../components/navbar/navbar';
 import { Outlet } from 'react-router-dom';
-import ModalError from '../utils/modal-error';
+import ModalError from '../../utils/modal-error';
 
 export default function MainPage() {
   const curTheme = useTheme();

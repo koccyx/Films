@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
-import ModalButton from '../components/modal-button';
+import ModalButton from '../../components/buttons/modal-button/modal-button';
 import { useNavigate } from 'react-router-dom';
-import useUserInfo from '../hooks/use-user-info';
+import useUserInfo from '../../hooks/use-user-info';
 
 export default function RegistrationPage() {
   const { token } = useUserInfo();

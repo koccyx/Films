@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { Grid } from '@mui/material';
-import Filters from '../components/filters';
-import Films from '../components/films';
-import { theme } from '../theme/theme';
+import Filters from '../../components/filters/filters';
+import Films from '../../components/films/films';
+import { theme } from '../../theme/theme';
 import { useNavigate } from 'react-router-dom';
-import useUserInfo from '../hooks/use-user-info';
+import useUserInfo from '../../hooks/use-user-info';
 
 export default function FilmsPage() {
   const { token } = useUserInfo();

@@ -1,23 +1,14 @@
+import { FilmPage } from '../pages/about-page/types';
+
 export interface genre {
   id: number;
   name: string;
 }
 
-export interface FilmPageInterface {
-  img: string;
-  title: string | null;
-  genres: string[];
-  country: string;
-  overview: string;
-  releaseYear: number;
-  averageVote: number;
-  id: number;
-}
-
 export default async function FetchFilmInfo(
   movieId: number,
   token: string,
-): Promise<FilmPageInterface> {
+): Promise<FilmPage> {
   try {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
